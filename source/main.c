@@ -12,6 +12,8 @@ int main(const int argc, const char* const argv[])
 
     hash_table_t hash_table = create_hash_table(input_file, return_zero_hash_func, first_table_capacity);
 
+    hash_table_to_file(hash_table, output_file);
+
     destroy_hash_table(&hash_table);
 
     printf(MAKE_BOLD("COMMIT GITHUB\n"));

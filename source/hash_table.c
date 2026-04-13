@@ -90,6 +90,23 @@ void push_to_hash_table(unsigned long long index, const char* word, hash_table_t
     hash_table->lists_array[index] = create_list(word);
 }
 
+void hash_table_to_file(hash_table_t hash_table, FILE* output_file)
+{
+    for (size_t i = 0; i < hash_table.capacity; i++)
+    {
+        if (hash_table.lists_array[i].head)
+        {
+            fprintf(output_file, "%lu: ", i);
+            while (hash_table.lists_array[i].current)
+            {
+                fprintf(output_file, "%s ", hash_table.lists_array[i].current->word);
+                hash_table.lists_array[i].current = hash_table.lists_array[i].current->next;
+            }
+            fprintf(output_file, "\n");
+        }
+    }
+}
+
 unsigned long long return_zero_hash_func(const char* word)
 {
     (void) word;

@@ -82,7 +82,7 @@ void count_words(char* buffer, size_t* number_of_words)
 
     char* word_pointer = 0;
 
-    while ((word_pointer = strchr(buffer, '\t')) != nullptr)
+    while ((word_pointer = strchr(buffer, '\n')) != nullptr)
     {
         *number_of_words += 1;
         buffer = word_pointer + 1;
@@ -99,7 +99,7 @@ void post_pointers(char** array_of_pointers, char* start_of_buffer, char* buffer
     buffer = start_of_buffer;
     array_of_pointers[0] = start_of_buffer;
 
-    for (int i = 1; (word_pointer = strchr(buffer, '\t')) != nullptr; i++)
+    for (int i = 1; (word_pointer = strchr(buffer, '\n')) != nullptr; i++)
     {
         *word_pointer = '\0';
         array_of_pointers[i] = word_pointer + 1;

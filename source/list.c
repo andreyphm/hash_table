@@ -18,15 +18,16 @@ list_t create_list(const char* word)
 
 node_t* create_node(const char* word)
 {
-    node_t node = {};
+    node_t* node = (node_t*) calloc(1, sizeof(node_t));
+    assert(node);
 
-    node.word = word;
-    node.next = nullptr;
+    node->word = word;
+    node->next = nullptr;
 
-    return &node;
+    return node;
 }
 
-node_t* list_push_back(const char* word, list_t* const list)
+void list_push_back(const char* word, list_t* const list)
 {
     assert(list);
 
@@ -34,8 +35,6 @@ node_t* list_push_back(const char* word, list_t* const list)
 
     list->tail->next = node;
     list->tail = node;
-
-    return node;
 }
 
 void list_destroy(list_t* list)

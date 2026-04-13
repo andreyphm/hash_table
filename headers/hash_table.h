@@ -23,6 +23,7 @@ hash_table_t create_hash_table(FILE* input_file, unsigned long long (*hash_func)
 void destroy_hash_table(hash_table_t* hash_table);
 bool hash_table_verify(hash_table_t* const hash_table);
 void hash_table_dump(hash_table_t* const hash_table, const char* const txt_file_name, const char* const png_file_name);
+void hash_table_to_file(hash_table_t hash_table, FILE* output_file);
 
 void fill_lists_array(text_data text, hash_table_t* hash_table);
 void push_to_hash_table(unsigned long long index, const char* word, hash_table_t* hash_table);

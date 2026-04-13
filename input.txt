@@ -1,1 +1,10 @@
-apple   river	shadow  whisper thunder	feather	lantern	velvet	embers	willow
+apple
+river
+shadow
+whisper
+thunder
+feather
+lantern
+velvet
+embers
+willow
