@@ -8,20 +8,9 @@
 #include "list.h"
 #include "font.h"
 
-hash_table_t create_hash_table(FILE* input_file, unsigned long long (*hash_func)(const char*), unsigned long long table_capacity)
+hash_table_t create_hash_table(text_data text, ULL (*hash_func)(const char*), ULL table_capacity)
 {
     assert(hash_func);
-
-    char* buffer = read_file_to_buffer(input_file);
-    fclose(input_file);
-
-    text_data text =
-    {
-        .array_of_pointers = nullptr,
-        .number_of_words = 0
-    };
-
-    text.array_of_pointers = words_addresses_to_array(buffer, &text.number_of_words);
 
     hash_table_t hash_table = {};
     hash_table.hash_func = hash_func;
@@ -69,15 +58,14 @@ bool hash_table_verify(hash_table_t* const hash_table)
 
 void fill_lists_array(text_data text, hash_table_t* hash_table)
 {
-    fprintf(stderr, "text.number_of_words = %lu\n", text.number_of_words);
     for (size_t i = 0; i < text.number_of_words; i++)
     {
-        unsigned long long hash_value = hash_table->hash_func(text.array_of_pointers[i]);
+        ULL hash_value = hash_table->hash_func(text.array_of_pointers[i]);
         push_to_hash_table(hash_value, text.array_of_pointers[i], hash_table);
     }
 }
 
-void push_to_hash_table(unsigned long long index, const char* word, hash_table_t* hash_table)
+void push_to_hash_table(ULL index, const char* word, hash_table_t* hash_table)
 {
     index %= hash_table->capacity;
 
@@ -107,18 +95,29 @@ void hash_table_to_file(hash_table_t hash_table, FILE* output_file)
     }
 }
 
-unsigned long long return_zero_hash_func(const char* word)
+ULL return_zero_hash_func(const char* word)
 {
     (void) word;
     return 0;
 }
 
-unsigned long long first_letter_hash_func(const char* word)
+ULL first_letter_hash_func(const char* word)
 {
-    return (unsigned long long)*word;
+    return (ULL)*word;
 }
 
-unsigned long long strlen_hash_func(const char* word)
+ULL strlen_hash_func(const char* word)
 {
     return strlen(word);
+}
+
+ULL ascii_sum_hash_func(const char* word)
+{
+    ULL sum = 0;
+    while (*word != '\0')
+    { 
+        sum += (ULL)*word;
+        word++;
+    }
+    return sum;
 }

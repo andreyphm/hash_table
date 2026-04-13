@@ -1,1 +1,84 @@
-0: apple river shadow whisper thunder feather lantern velvet embers willow 
+343: sky 
+518: ocean 
+526: chaos 
+530: apple 
+540: order 
+543: array 
+545: music 
+552: river 
+616: coffee 
+617: camera 
+624: device 
+630: engine 
+632: thread packet 
+634: buffer design 
+638: signal 
+639: client 
+641: kernel random 
+644: planet 
+645: binary 
+646: galaxy 
+650: energy 
+652: driver 
+655: flower 
+659: forest 
+661: matrix 
+663: neuron string server 
+664: window 
+665: memory 
+667: future 
+677: system 
+719: decimal 
+725: machine 
+730: science 
+732: diamond 
+738: freedom 
+745: compile 
+750: integer 
+754: voltage 
+755: circuit execute 
+757: library biology storage 
+763: battery 
+766: pattern testing 
+767: process 
+769: pointer 
+771: physics current 
+774: gravity 
+777: request 
+778: network 
+779: quantum 
+785: entropy 
+786: history 
+821: database 
+836: language 
+838: variable 
+848: learning 
+849: keyboard 
+852: floating 
+868: analysis 
+870: function 
+874: constant 
+875: mountain 
+879: computer velocity response 
+882: momentum protocol 
+888: security 
+940: debugging 
+967: algorithm 
+971: happiness 
+972: precision 
+984: chemistry 
+1009: structure 
+1048: artificial 
+1073: resistance 
+1089: decryption 
+1099: statistics encryption 
+1103: philosophy 
+1141: hexadecimal 
+1185: probability 
+1187: development 
+1258: acceleration 
+1267: intelligence 
+1319: optimization 
+1396: deterministic 
+1425: authorization 
+1504: authentication 
