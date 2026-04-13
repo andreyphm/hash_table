@@ -1,18 +1,29 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include "hash_table.h"
 #include "list.h"
 #include "font.h"
 
+list_t create_list(const char* word)
+{
+    list_t list = {};
+
+    list.head = create_node(word);
+    list.current = list.head;
+    list.tail = list.head;
+
+    return list;
+}
+
 node_t* create_node(const char* word)
 {
-    node_t* const node = (node_t*) calloc(1, sizeof(node_t));
-    assert(node);
+    node_t node = {};
 
-    node->word = word;
-    node->next = nullptr;
+    node.word = word;
+    node.next = nullptr;
 
-    return node;
+    return &node;
 }
 
 node_t* list_push_back(const char* word, list_t* const list)

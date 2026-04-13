@@ -4,18 +4,30 @@
 #include <assert.h>
 
 #include "hash_table.h"
+#include "input_proc.h"
+#include "list.h"
 #include "font.h"
 
-hash_table_t* create_hash_table(list_t* lists_array, unsigned long long capacity,
-                                unsigned long long (*hash_func_ptr)(const list_t*))
+hash_table_t create_hash_table(FILE* input_file, unsigned long long (*hash_func)(const char*), unsigned long long table_capacity)
 {
-    assert(lists_array);
-    assert(hash_func_ptr);
+    assert(hash_func);
 
-    hash_table_t* hash_table = (hash_table_t*) calloc(1, sizeof(hash_table_t*));
-    hash_table->capacity = capacity;
-    hash_table->lists_array = lists_array;
-    hash_table->hash_func_pointer = hash_func_ptr;
+    char* buffer = read_file_to_buffer(input_file);
+    fclose(input_file);
+
+    text_data text =
+    {
+        .array_of_pointers = nullptr,
+        .number_of_words = 0
+    };
+
+    text.array_of_pointers = words_addresses_to_array(buffer, &text.number_of_words);
+
+    hash_table_t hash_table = {};
+    hash_table.hash_func = hash_func;
+    hash_table.capacity = table_capacity;
+    hash_table.lists_array = (list_t*) calloc(table_capacity, sizeof(list_t));
+    fill_lists_array(text, &hash_table);
 
     return hash_table;
 }
@@ -28,30 +40,65 @@ void destroy_hash_table(hash_table_t* hash_table)
         free(hash_table);
         return;
     }
+
+    for (size_t i = 0; i < hash_table->capacity; i++)
+        list_destroy(&hash_table->lists_array[i]);
+    
     free(hash_table->lists_array);
-    free(hash_table);
+    // free(hash_table);
 }
 
 void hash_table_dump(hash_table_t* const hash_table, const char* const txt_file_name, const char* const png_file_name)
 {
-    assert(hash_table);
+    for (size_t i = 0; list_verify(&hash_table->lists_array[i]) && i < hash_table->capacity; i++)
+        list_dump(hash_table->lists_array, txt_file_name, png_file_name);
 
-    for (size_t i = 0; list_verify(hash_table->lists_array[i]) && i != hash_table->capacity; i++)
-    {
-        list_dump(hash_table->lists_array);
-    }
-
-    printf(MAKE_BOLD_GREEN("Hash table visualization saved to %s\n"), LIST_DUMP_PNG);
+    printf(MAKE_BOLD_GREEN("Hash table visualization saved to %s\n"), png_file_name);
 }
 
-unsigned long long return_0_hash_func(void)
+bool hash_table_verify(hash_table_t* const hash_table)
 {
+    if (!hash_table) return false;
+    if (!hash_table->lists_array) return true;
+
+    for (size_t i = 0; i < hash_table->capacity; i++)
+        if (!list_verify(&hash_table->lists_array[i])) return false;
+
+    return true;
+}
+
+void fill_lists_array(text_data text, hash_table_t* hash_table)
+{
+    fprintf(stderr, "text.number_of_words = %lu\n", text.number_of_words);
+    for (size_t i = 0; i < text.number_of_words; i++)
+    {
+        unsigned long long hash_value = hash_table->hash_func(text.array_of_pointers[i]);
+        push_to_hash_table(hash_value, text.array_of_pointers[i], hash_table);
+    }
+}
+
+void push_to_hash_table(unsigned long long index, const char* word, hash_table_t* hash_table)
+{
+    index %= hash_table->capacity;
+
+    if (hash_table->lists_array[index].head)
+    {
+        list_push_back(word, &hash_table->lists_array[index]);
+        return;
+    }
+    
+    hash_table->lists_array[index] = create_list(word);
+}
+
+unsigned long long return_zero_hash_func(const char* word)
+{
+    (void) word;
     return 0;
 }
 
 unsigned long long first_letter_hash_func(const char* word)
 {
-    return *word;
+    return (unsigned long long)*word;
 }
 
 unsigned long long strlen_hash_func(const char* word)
