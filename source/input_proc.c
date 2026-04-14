@@ -6,7 +6,8 @@
 #include "font.h"
 #include "input_proc.h"
 
-void check_files(FILE** const input_file, FILE** const output_file, int argc, const char* const argv[])
+void check_cmd(FILE** const input_file, FILE** const output_file, 
+               hash_func_num_t* hash_func_num, int argc, const char* const argv[])
 {
     if (argc == CORRECT_ARGC)
     {
@@ -24,22 +25,27 @@ void check_files(FILE** const input_file, FILE** const output_file, int argc, co
             printf(MAKE_BOLD_RED("Can't open output file. Default output file will be used: " DEFAULT_OUTPUT_FILE ".\n"));
             *output_file = fopen(DEFAULT_OUTPUT_FILE, "w");
         }
+        
+        *hash_func_num = (hash_func_num_t)(atoi(argv[3]));
     }
     else
     {
-        bad_argc_message(argv);
+        bad_cmd_message(argv);
         *input_file = fopen(DEFAULT_INPUT_FILE, "r");
         *output_file = fopen(DEFAULT_OUTPUT_FILE, "w");
     }
 }
 
-void bad_argc_message(const char* const* argv)
+void bad_cmd_message(const char* const* argv)
 {
-    printf(MAKE_BOLD("You haven't entered the input and output files or you entered them incorrectly."
-                     "\nDefault files will be used: " 
+    printf(MAKE_BOLD("You haven't entered files and hash func number or you entered them incorrectly.\n"
+                     "Default files will be used: " 
                      DEFAULT_INPUT_FILE " for input and " 
-                     DEFAULT_OUTPUT_FILE " for output.\nIf you want to select your files, please, "
-                     "use: %s input_file output_file.\n\n"), argv[0]);
+                     DEFAULT_OUTPUT_FILE " for output.\n"
+                     "Default hash func will be used: "
+                     DEFAULT_HASH_FUNC ".\n"
+                     "If you want to select your files and hash func, please, "
+                     "use: %s input_file output_file hash_func_number.\n\n"), argv[0]);
 }
 
 char* read_file_to_buffer(FILE* const file)

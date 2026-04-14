@@ -3,13 +3,17 @@
 
 #include <stdio.h>
 
+#include "hash_table.h"
+
 #define DEFAULT_INPUT_FILE  "input.txt"
 #define DEFAULT_OUTPUT_FILE "output.txt"
-#define CORRECT_ARGC 3
+#define DEFAULT_HASH_FUNC "ascii_sum_hash_func()" 
+#define CORRECT_ARGC 4
 
 char* read_file_to_buffer(FILE* const file);
-void check_files(FILE** const input_file, FILE** const output_file, int argc, const char* const argv[]);
-void bad_argc_message(const char* const* argv);
+void check_cmd(FILE** const input_file, FILE** const output_file, 
+               hash_func_num_t* hash_func_num, int argc, const char* const argv[]);
+void bad_cmd_message(const char* const* argv);
 
 char** words_addresses_to_array(char* buffer, size_t* number_of_strings);
 void count_words(char* buffer, size_t* number_of_strings);

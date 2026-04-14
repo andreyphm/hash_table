@@ -8,6 +8,14 @@ typedef unsigned long long ULL;
 #define LIST_DUMP_PNG "source/dump/list_dump.png"
 #define LIST_DUMP_TXT "source/dump/list_dump.txt"
 
+enum hash_func_num_t
+{
+    RETURN_ZERO     = 0,
+    FIRST_LETTER    = 1,
+    STRLEN          = 2,
+    ASCII_SUM       = 3
+};
+
 struct text_data
 {
     char** array_of_pointers;
