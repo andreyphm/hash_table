@@ -21,7 +21,7 @@ int main(const int argc, const char* const argv[])
 
     text.array_of_pointers = words_addresses_to_array(buffer, &text.number_of_words);
 
-    ULL first_table_capacity = 4001;
+    ULL first_table_capacity = 503;
     hash_table_t hash_table = create_hash_table(text, ascii_sum_hash_func, first_table_capacity);
 
     hash_table_to_file(hash_table, output_file);

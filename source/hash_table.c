@@ -80,11 +80,12 @@ void push_to_hash_table(ULL index, const char* word, hash_table_t* hash_table)
 
 void hash_table_to_file(hash_table_t hash_table, FILE* output_file)
 {
+    fprintf(output_file, "%llu\n", hash_table.capacity);
     for (size_t i = 0; i < hash_table.capacity; i++)
     {
         if (hash_table.lists_array[i].head)
         {
-            fprintf(output_file, "%lu: ", i);
+            fprintf(output_file, "%lu ", i);
             while (hash_table.lists_array[i].current)
             {
                 fprintf(output_file, "%s ", hash_table.lists_array[i].current->word);
