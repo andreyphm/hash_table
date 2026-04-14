@@ -122,3 +122,17 @@ ULL ascii_sum_hash_func(const char* word)
     }
     return sum;
 }
+
+ULL rol_hash_func(const char* word)
+{
+    ULL value = 0;
+    // printf("strlen(word) = %d\n", strlen(word));
+    // printf("word[strlen(word) - 1] = %d\n", word[strlen(word) - 1]);
+    while (*word != '\0')
+    {
+        value = (value << 1) | (value >> (sizeof(ULL) * 8 - 1));
+        value = value ^ (ULL)*word;
+        word++;
+    }
+    return value;
+}

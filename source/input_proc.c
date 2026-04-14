@@ -108,6 +108,12 @@ void post_pointers(char** array_of_pointers, char* start_of_buffer, char* buffer
 
     for (int i = 1; (word_pointer = strchr(buffer, '\n')) != nullptr; i++)
     {
+        if (word_pointer > start_of_buffer)
+        {
+            if (*(word_pointer - 1) == '\r') 
+                *(word_pointer - 1) = '\0';
+        }
+
         *word_pointer = '\0';
         array_of_pointers[i] = word_pointer + 1;
         buffer = word_pointer + 1;

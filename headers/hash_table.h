@@ -13,7 +13,8 @@ enum hash_func_num_t
     RETURN_ZERO     = 0,
     FIRST_LETTER    = 1,
     STRLEN          = 2,
-    ASCII_SUM       = 3
+    ASCII_SUM       = 3,
+    ROL             = 4
 };
 
 struct text_data
@@ -42,6 +43,7 @@ ULL return_zero_hash_func(const char* word);
 ULL first_letter_hash_func(const char* word);
 ULL strlen_hash_func(const char* word);
 ULL ascii_sum_hash_func(const char* word);
+ULL rol_hash_func(const char* word);
 
 #include "list.h"
 
