@@ -13,8 +13,9 @@ int main(const int argc, const char* const argv[])
     FILE* input_file  = nullptr;
     FILE* output_file = nullptr;
     hash_func_num_t hash_func_num = ASCII_SUM;
+    ULL hash_table_capacity = 503;
 
-    check_cmd(&input_file, &output_file, &hash_func_num, argc, argv);
+    check_cmd(&input_file, &output_file, &hash_func_num, &hash_table_capacity, argc, argv);
 
     ULL (*hash_func)(const char*) = hash_func_array[hash_func_num];
 
@@ -29,8 +30,7 @@ int main(const int argc, const char* const argv[])
 
     text.array_of_pointers = words_addresses_to_array(buffer, &text.number_of_words);
 
-    ULL first_table_capacity = 4001;
-    hash_table_t hash_table = create_hash_table(text, hash_func, first_table_capacity);
+    hash_table_t hash_table = create_hash_table(text, hash_func, hash_table_capacity);
 
     hash_table_to_file(hash_table, output_file);
 

@@ -7,7 +7,8 @@
 #include "input_proc.h"
 
 void check_cmd(FILE** const input_file, FILE** const output_file, 
-               hash_func_num_t* hash_func_num, int argc, const char* const argv[])
+               hash_func_num_t* hash_func_num, ULL* hash_table_capacity,
+               int argc, const char* const argv[])
 {
     if (argc == CORRECT_ARGC)
     {
@@ -27,6 +28,7 @@ void check_cmd(FILE** const input_file, FILE** const output_file,
         }
         
         *hash_func_num = (hash_func_num_t)(atoi(argv[3]));
+        *hash_table_capacity = (ULL)atoi(argv[4]);
     }
     else
     {
@@ -42,10 +44,9 @@ void bad_cmd_message(const char* const* argv)
                      "Default files will be used: " 
                      DEFAULT_INPUT_FILE " for input and " 
                      DEFAULT_OUTPUT_FILE " for output.\n"
-                     "Default hash func will be used: "
-                     DEFAULT_HASH_FUNC ".\n"
-                     "If you want to select your files and hash func, please, "
-                     "use: %s input_file output_file hash_func_number.\n\n"), argv[0]);
+                     "Default hash func and capacity will be used.\n"
+                     "If you want to select your files, hash func and capacity, please, "
+                     "use: %s input_file output_file hash_func_number hash_table_capacity.\n\n"), argv[0]);
 }
 
 char* read_file_to_buffer(FILE* const file)
