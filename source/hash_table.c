@@ -34,7 +34,6 @@ void destroy_hash_table(hash_table_t* hash_table)
         list_destroy(&hash_table->lists_array[i]);
     
     free(hash_table->lists_array);
-    // free(hash_table);
 }
 
 void hash_table_dump(hash_table_t* const hash_table, const char* const txt_file_name, const char* const png_file_name)
@@ -58,24 +57,24 @@ bool hash_table_verify(hash_table_t* const hash_table)
 
 void fill_lists_array(text_data text, hash_table_t* hash_table)
 {
-    for (size_t i = 0; i < text.number_of_words; i++)
+    for (size_t word_num = 0; word_num < text.number_of_words; word_num++)
     {
-        ULL hash_value = hash_table->hash_func(text.array_of_pointers[i]);
-        push_to_hash_table(hash_value, text.array_of_pointers[i], hash_table);
+        ULL hash_value = hash_table->hash_func(text.array_of_pointers[word_num]);
+        push_to_hash_table(hash_value, text.array_of_pointers[word_num], word_num, hash_table);
     }
 }
 
-void push_to_hash_table(ULL index, const char* word, hash_table_t* hash_table)
+void push_to_hash_table(ULL list_index, const char* word, ULL word_num, hash_table_t* hash_table)
 {
-    index %= hash_table->capacity;
+    list_index %= hash_table->capacity;
 
-    if (hash_table->lists_array[index].head)
+    if (hash_table->lists_array[list_index].head)
     {
-        list_push_back(word, &hash_table->lists_array[index]);
+        list_push_back(word, word_num, &hash_table->lists_array[list_index]);
         return;
     }
     
-    hash_table->lists_array[index] = create_list(word);
+    hash_table->lists_array[list_index] = create_list(word, word_num);
 }
 
 void hash_table_to_file(hash_table_t hash_table, FILE* output_file)
@@ -94,6 +93,23 @@ void hash_table_to_file(hash_table_t hash_table, FILE* output_file)
             fprintf(output_file, "\n");
         }
     }
+}
+
+ULL seek_word(const char* word, hash_table_t hash_table)
+{
+    ULL list_index = hash_table.hash_func(word) % hash_table.capacity;
+
+    hash_table.lists_array[list_index].current = hash_table.lists_array[list_index].head;
+
+    while(hash_table.lists_array[list_index].current->next)
+    {
+        if (!strcmp(word, hash_table.lists_array[list_index].current->word))
+            return hash_table.lists_array[list_index].current->word_num;
+
+        hash_table.lists_array[list_index].current = hash_table.lists_array[list_index].current->next;
+    }
+
+    return hash_table.capacity;
 }
 
 ULL return_zero_hash_func(const char* word)
@@ -126,8 +142,6 @@ ULL ascii_sum_hash_func(const char* word)
 ULL rol_hash_func(const char* word)
 {
     ULL value = 0;
-    // printf("strlen(word) = %d\n", strlen(word));
-    // printf("word[strlen(word) - 1] = %d\n", word[strlen(word) - 1]);
     while (*word != '\0')
     {
         value = (value << 1) | (value >> (sizeof(ULL) * 8 - 1));

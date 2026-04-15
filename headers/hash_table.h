@@ -3,8 +3,6 @@
 
 #include "list.h"
 
-typedef unsigned long long ULL;
-
 #define LIST_DUMP_PNG "source/dump/list_dump.png"
 #define LIST_DUMP_TXT "source/dump/list_dump.txt"
 
@@ -37,7 +35,8 @@ void hash_table_dump(hash_table_t* const hash_table, const char* const txt_file_
 void hash_table_to_file(hash_table_t hash_table, FILE* output_file);
 
 void fill_lists_array(text_data text, hash_table_t* hash_table);
-void push_to_hash_table(ULL index, const char* word, hash_table_t* hash_table);
+void push_to_hash_table(ULL index, const char* word, ULL word_num, hash_table_t* hash_table);
+ULL seek_word(const char* word, hash_table_t hash_table);
 
 ULL return_zero_hash_func(const char* word);
 ULL first_letter_hash_func(const char* word);

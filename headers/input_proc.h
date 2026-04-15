@@ -1,5 +1,5 @@
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef INPUT_PROC_H
+#define INPUT_PROC_H
 
 #include <stdio.h>
 
@@ -19,4 +19,4 @@ char** words_addresses_to_array(char* buffer, size_t* number_of_strings);
 void count_words(char* buffer, size_t* number_of_strings);
 void post_pointers(char** array_of_pointers, char* start_of_buffer, char* buffer);
 
-#endif // INPUT_H
+#endif // INPUT_PROC_H

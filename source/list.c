@@ -5,33 +5,34 @@
 #include "list.h"
 #include "font.h"
 
-list_t create_list(const char* word)
+list_t create_list(const char* word, ULL word_num)
 {
     list_t list = {};
 
-    list.head = create_node(word);
+    list.head = create_node(word, word_num);
     list.current = list.head;
     list.tail = list.head;
 
     return list;
 }
 
-node_t* create_node(const char* word)
+node_t* create_node(const char* word, ULL word_num)
 {
     node_t* node = (node_t*) calloc(1, sizeof(node_t));
     assert(node);
 
     node->word = word;
+    node->word_num = word_num;
     node->next = nullptr;
 
     return node;
 }
 
-void list_push_back(const char* word, list_t* const list)
+void list_push_back(const char* word, ULL word_num, list_t* const list)
 {
     assert(list);
 
-    node_t* const node = create_node(word);
+    node_t* const node = create_node(word, word_num);
 
     list->tail->next = node;
     list->tail = node;

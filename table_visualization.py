@@ -22,7 +22,7 @@ y = counts
 
 plt.figure(figsize=(20, 6))
 plt.bar(x, y, width = 1.0)
-plt.xlim(0, capacity - 1)   # removes voids
+plt.xlim(-1, capacity)   # removes voids
 plt.xlabel("List index")
 plt.ylabel("Number of elements")
 plt.title("Hash table distribution")
