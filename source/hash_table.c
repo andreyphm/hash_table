@@ -150,3 +150,25 @@ ULL rol_hash_func(const char* word)
     }
     return value;
 }
+
+ULL crc32_hash_func(const char* word)
+{
+    unsigned int crc = 0xFFFFFFFFU;
+
+    while (*word != '\0')
+    {
+        crc ^= (unsigned char)(*word);
+
+        for (int i = 0; i < 8; i++)
+        {
+            if (crc & 1U)
+                crc = (crc >> 1) ^ 0xEDB88320U;
+            else
+                crc >>= 1;
+        }
+
+        word++;
+    }
+
+    return (ULL)(crc ^ 0xFFFFFFFFU);
+}

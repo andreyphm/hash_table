@@ -12,7 +12,8 @@ enum hash_func_num_t
     FIRST_LETTER    = 1,
     STRLEN          = 2,
     ASCII_SUM       = 3,
-    ROL             = 4
+    ROL             = 4,
+    CRC32           = 5
 };
 
 struct text_data
@@ -43,5 +44,6 @@ ULL first_letter_hash_func(const char* word);
 ULL strlen_hash_func(const char* word);
 ULL ascii_sum_hash_func(const char* word);
 ULL rol_hash_func(const char* word);
+ULL crc32_hash_func(const char* word);
 
 #endif // HASH_TABLE_H

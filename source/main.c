@@ -19,10 +19,11 @@ int main(const int argc, const char* const argv[])
                                              first_letter_hash_func,
                                              strlen_hash_func,
                                              ascii_sum_hash_func,
-                                             rol_hash_func};
+                                             rol_hash_func,
+                                             crc32_hash_func};
     FILE* input_file  = nullptr;
     FILE* output_file = nullptr;
-    hash_func_num_t hash_func_num = ASCII_SUM;
+    hash_func_num_t hash_func_num = CRC32;
     ULL hash_table_capacity = 503;
 
     check_cmd(&input_file, &output_file, &hash_func_num, &hash_table_capacity, argc, argv);
