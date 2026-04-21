@@ -12,19 +12,19 @@ void check_cmd(FILE** const input_file, FILE** const output_file,
 {
     if (argc == CORRECT_ARGC)
     {
-        *input_file = fopen(argv[1], "r");
-        *output_file = fopen(argv[2], "w");
+        *input_file = fopen(argv[1], "rb");
+        *output_file = fopen(argv[2], "wb");
 
         if (!*input_file)
         {
             printf(MAKE_BOLD_RED("Can't open input file. Default input file will be used: " DEFAULT_INPUT_FILE ".\n"));
-            *input_file = fopen(DEFAULT_INPUT_FILE, "r");
+            *input_file = fopen(DEFAULT_INPUT_FILE, "rb");
         }
 
         if (!*output_file)
         {
             printf(MAKE_BOLD_RED("Can't open output file. Default output file will be used: " DEFAULT_OUTPUT_FILE ".\n"));
-            *output_file = fopen(DEFAULT_OUTPUT_FILE, "w");
+            *output_file = fopen(DEFAULT_OUTPUT_FILE, "wb");
         }
         
         *hash_func_num = (hash_func_num_t)(atoi(argv[3]));
@@ -33,8 +33,8 @@ void check_cmd(FILE** const input_file, FILE** const output_file,
     else
     {
         bad_cmd_message(argv);
-        *input_file = fopen(DEFAULT_INPUT_FILE, "r");
-        *output_file = fopen(DEFAULT_OUTPUT_FILE, "w");
+        *input_file = fopen(DEFAULT_INPUT_FILE, "rb");
+        *output_file = fopen(DEFAULT_OUTPUT_FILE, "wb");
     }
 }
 

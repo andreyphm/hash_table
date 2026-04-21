@@ -115,7 +115,9 @@ void list_dump(list_t* const list, const char* const txt_file_name, const char* 
 
     char command[1000];
     sprintf(command, "dot %s -T png -o %s", txt_file_name, png_file_name);
-    system(command);
+    int system_status = system(command);
+    if (system_status != 0)
+        fprintf(stderr, "Failed to execute command: %s\n", command);
 
     printf(MAKE_BOLD_GREEN("List visualization saved to %s\n"), LIST_DUMP_PNG);
 }

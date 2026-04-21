@@ -1,3 +1,4 @@
 .vscode
 build
 words_alpha.txt
+callgrind.out.*

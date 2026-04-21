@@ -44,6 +44,4 @@ ULL strlen_hash_func(const char* word);
 ULL ascii_sum_hash_func(const char* word);
 ULL rol_hash_func(const char* word);
 
-#include "list.h"
-
 #endif // HASH_TABLE_H

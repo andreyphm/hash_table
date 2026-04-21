@@ -99,14 +99,14 @@ ULL seek_word(const char* word, hash_table_t hash_table)
 {
     ULL list_index = hash_table.hash_func(word) % hash_table.capacity;
 
-    hash_table.lists_array[list_index].current = hash_table.lists_array[list_index].head;
+    node_t* current = hash_table.lists_array[list_index].head;
 
-    while(hash_table.lists_array[list_index].current->next)
+    while(current)
     {
-        if (!strcmp(word, hash_table.lists_array[list_index].current->word))
-            return hash_table.lists_array[list_index].current->word_num;
+        if (!strcmp(word, current->word))
+            return current->word_num;
 
-        hash_table.lists_array[list_index].current = hash_table.lists_array[list_index].current->next;
+        current = current->next;
     }
 
     return hash_table.capacity;

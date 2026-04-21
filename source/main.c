@@ -4,6 +4,15 @@
 #include "input_proc.h"
 #include "font.h"
 
+#define VISUALIZATION_MODE 0
+#define SEARCH_BENCHMARK_MODE 1
+
+#ifndef PROGRAM_MODE
+#define PROGRAM_MODE VISUALIZATION_MODE
+#endif
+
+const ULL SEARCH_REPEATS = 10000000;
+
 int main(const int argc, const char* const argv[])
 {
     ULL (*hash_func_array[])(const char*) = {return_zero_hash_func,
@@ -33,9 +42,17 @@ int main(const int argc, const char* const argv[])
 
     hash_table_t hash_table = create_hash_table(text, hash_func, hash_table_capacity);
 
-    hash_table_to_file(hash_table, output_file);
+    if (PROGRAM_MODE == SEARCH_BENCHMARK_MODE)
+    {
+        ULL search_result = 0;
 
-    printf("bradyseismical number is %llu\n", seek_word("bradyseismical", hash_table));
+        for (size_t i = 0; i < SEARCH_REPEATS; i++)
+            search_result += seek_word("apperceptionistic", hash_table);
+
+        printf("search_result = %llu\n", search_result);
+    }
+    else
+        hash_table_to_file(hash_table, output_file);
 
     free(buffer);
     free(text.array_of_pointers);
