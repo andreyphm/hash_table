@@ -104,7 +104,7 @@ ULL seek_word(const char* word, hash_table_t hash_table)
 
     while(current)
     {
-        if (!strcmp(word, current->word))
+        if (is_words_equal(word, current->word))
             return current->word_num;
 
         current = current->next;
@@ -163,4 +163,18 @@ ULL crc32_hash_func(const char* word)
     }
 
     return (ULL)(crc ^ 0xFFFFFFFFU);
+}
+
+bool is_words_equal(const char* first, const char* second)
+{
+    while (*first == *second)
+    {
+        if (*first == '\0')
+            return true;
+
+        first++;
+        second++;
+    }
+
+    return false;
 }

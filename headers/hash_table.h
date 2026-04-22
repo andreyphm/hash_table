@@ -46,4 +46,6 @@ ULL ascii_sum_hash_func(const char* word);
 ULL rol_hash_func(const char* word);
 ULL crc32_hash_func(const char* word);
 
+bool is_words_equal(const char* first, const char* second);
+
 #endif // HASH_TABLE_H
