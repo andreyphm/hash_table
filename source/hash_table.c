@@ -7,6 +7,7 @@
 #include "input_proc.h"
 #include "list.h"
 #include "font.h"
+#include "nmmintrin.h"
 
 hash_table_t create_hash_table(text_data text, ULL (*hash_func)(const char*), ULL table_capacity)
 {
@@ -157,16 +158,7 @@ ULL crc32_hash_func(const char* word)
 
     while (*word != '\0')
     {
-        crc ^= (unsigned char)(*word);
-
-        for (int i = 0; i < 8; i++)
-        {
-            if (crc & 1U)
-                crc = (crc >> 1) ^ 0xEDB88320U;
-            else
-                crc >>= 1;
-        }
-
+        crc = _mm_crc32_u8(crc, (unsigned char)(*word));
         word++;
     }
 

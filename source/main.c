@@ -24,7 +24,7 @@ int main(const int argc, const char* const argv[])
     FILE* input_file  = nullptr;
     FILE* output_file = nullptr;
     hash_func_num_t hash_func_num = CRC32;
-    ULL hash_table_capacity = 503;
+    ULL hash_table_capacity = 4001;
 
     check_cmd(&input_file, &output_file, &hash_func_num, &hash_table_capacity, argc, argv);
 
