@@ -104,7 +104,7 @@ ULL seek_word(const char* word, hash_table_t hash_table)
 
     while(current)
     {
-        if (is_words_equal(word, current->word))
+        if (is_words_equal_asm(word, current->word))
             return current->word_num;
 
         current = current->next;

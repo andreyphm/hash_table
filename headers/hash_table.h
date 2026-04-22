@@ -47,5 +47,6 @@ ULL rol_hash_func(const char* word);
 ULL crc32_hash_func(const char* word);
 
 bool is_words_equal(const char* first, const char* second);
+extern "C" bool is_words_equal_asm(const char* first, const char* second);
 
 #endif // HASH_TABLE_H

@@ -3,9 +3,14 @@ BUILD_DIR := build
 TARGET := $(BUILD_DIR)/hash_table.out
 HDR_DIR := headers
 
+ASM := nasm
+
+ASM_SRCS := $(wildcard $(SRC_DIR)/*.asm)
+ASM_OBJS := $(ASM_SRCS:$(SRC_DIR)/%.asm=$(BUILD_DIR)/%.o)
+
 SRCS := $(wildcard $(SRC_DIR)/**/*.c) $(wildcard $(SRC_DIR)/*.c)
 HDRS := $(wildcard $(HDR_DIR)/*.h)
-OBJS := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+OBJS := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o) $(ASM_OBJS)
 
 CXX := g++
 
@@ -32,6 +37,10 @@ $(TARGET): $(OBJS)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(HDRS)
 	@mkdir -p $(dir $@)
 	$(CXX) $(FLAGS) -c $< -o $@
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm
+	@mkdir -p $(dir $@)
+	$(ASM) -f elf64 $< -o $@
 
 clean:
 	rm -rf $(BUILD_DIR) callgrind.out.*
