@@ -96,58 +96,6 @@ void hash_table_to_file(hash_table_t hash_table, FILE* output_file)
     }
 }
 
-ULL seek_word(const char* word, hash_table_t hash_table)
-{
-    ULL list_index = hash_table.hash_func(word) % hash_table.capacity;
-
-    node_t* current = hash_table.lists_array[list_index].head;
-
-    while(current)
-    {
-        bool words_is_equal = false;
-        const char* first_word = word;
-        const char* second_word = current->word;
-
-        asm
-        (
-            ".loop:\n"
-            "movb (%%rdi), %%al\n" // AL = current letter in rdi
-            "movb (%%rsi), %%dl\n" // DL = current letter in rsi
-
-            "cmpb %%dl, %%al\n"
-            "jne .not_equal\n"
-
-            "testb %%al, %%al\n"
-            "je .equal\n"
-
-            "inc %%rdi\n"
-            "inc %%rsi\n"
-
-            "jmp .loop\n"
-
-            ".equal:\n"
-            "movl $1, %%eax\n"
-            "jmp .end\n"
-
-            ".not_equal:\n"
-            "xor %%eax, %%eax\n"
-            ".end:\n"
-
-            : "=a" (words_is_equal),
-              "+D" (first_word), "+S" (second_word) // output operands ("+" means read-write)
-            :
-            : "rdx", "cc", "memory"
-        );
-
-        if (words_is_equal)
-            return current->word_num;
-
-        current = current->next;
-    }
-
-    return hash_table.capacity;
-}
-
 ULL return_zero_hash_func(const char* word)
 {
     (void) word;

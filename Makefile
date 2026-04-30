@@ -14,7 +14,7 @@ OBJS := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o) $(ASM_OBJS)
 
 CXX := g++
 
-COMMON_FLAGS := -I$(HDR_DIR) -std=c++17 -Wall -Wextra
+COMMON_FLAGS := -I$(HDR_DIR) -std=c++17 -Wall -Wextra -g
 VISUAL_FLAGS := $(COMMON_FLAGS) -D_DEBUG -ggdb3 -O3 -msse4.2 -DPROGRAM_MODE=VISUALIZATION_MODE
 BENCH_FLAGS := $(COMMON_FLAGS) -DNDEBUG -O3 -msse4.2 -DPROGRAM_MODE=SEARCH_BENCHMARK_MODE
 FLAGS := $(VISUAL_FLAGS)	# set default flags for make

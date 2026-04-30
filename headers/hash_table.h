@@ -37,7 +37,26 @@ void hash_table_to_file(hash_table_t hash_table, FILE* output_file);
 
 void fill_lists_array(text_data text, hash_table_t* hash_table);
 void push_to_hash_table(ULL index, const char* word, ULL word_num, hash_table_t* hash_table);
-ULL seek_word(const char* word, hash_table_t hash_table);
+
+bool is_words_equal(const char* first, const char* second);
+extern "C" bool is_words_equal_asm(const char* first, const char* second);
+
+inline ULL seek_word(const char* word, hash_table_t hash_table)
+{
+    ULL list_index = hash_table.hash_func(word) % hash_table.capacity;
+
+    node_t* current = hash_table.lists_array[list_index].head;
+
+    while(current)
+    {
+        if (is_words_equal_asm(word, current->word))
+            return current->word_num;
+
+        current = current->next;
+    }
+
+    return hash_table.capacity;
+}
 
 ULL return_zero_hash_func(const char* word);
 ULL first_letter_hash_func(const char* word);
@@ -45,8 +64,5 @@ ULL strlen_hash_func(const char* word);
 ULL ascii_sum_hash_func(const char* word);
 ULL rol_hash_func(const char* word);
 ULL crc32_hash_func(const char* word);
-
-bool is_words_equal(const char* first, const char* second);
-extern "C" bool is_words_equal_asm(const char* first, const char* second);
 
 #endif // HASH_TABLE_H
